@@ -3,23 +3,27 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.homework.triple.Mapper.PointMapper">
     <!-- 특정 장소 첫 리뷰 조회  -->
-    <select id="selectReviewPlace" parameterType="point" resultType="int">
-        SELECT count(placeId)
+    <select id="selectReviewPlace" parameterType="point" resultType="review">
+        SELECT reviewId,content,attachedPhotoIds,COUNT(placeId) as count
         FROM review
         WHERE placeId = #{placeId}
+        ORDER BY date DESC
+        LIMIT 1
     </select>
 
     <!--  포인트 등록  -->
     <insert id="insertPointEvent" parameterType="point">
-        INSERT INTO point(pointId,userId,reviewId,point,type,action)
-        VALUES(UUID(),#{userId},#{reviewId},#{point},#{type},#{action})
+        INSERT INTO point(pointId,userId,reviewId,point,type,action,date)
+        VALUES(UUID(),#{userId},#{reviewId},#{point},#{type},#{action},now())
     </insert>
 
-    <!--  리뷰 조회  -->
+    <!-- 리뷰의 최근 포인트 조회  -->
     <select id="selectReview" parameterType="point" resultType="point">
-        SELECT pointId,userId,reviewId,point,type,action
-        FROM point
+        SELECT pointId,userId,reviewId,point,type,action,date
+        FROM triple.point
         WHERE reviewId = #{reviewId} AND userId = #{userId}
+        order by date DESC
+        limit 1
     </select>
 
 </mapper>

@@ -14,6 +14,7 @@ public class Point {
     private String action;
     private String userId;
     private int point;
+    private String date;
     //
     private String reviewId;
     private String attachedPhotoIds;

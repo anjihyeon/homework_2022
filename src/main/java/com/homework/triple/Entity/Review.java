@@ -14,4 +14,7 @@ public class Review {
     private String attachedPhotoIds;
     private String placeId;
     private String userId;
+    private String date;
+    //
+    private int count;
 }
