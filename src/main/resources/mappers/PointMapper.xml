@@ -2,5 +2,24 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.homework.triple.Mapper.PointMapper">
+    <!-- 특정 장소 첫 리뷰 조회  -->
+    <select id="selectReviewPlace" parameterType="point" resultType="int">
+        SELECT count(placeId)
+        FROM review
+        WHERE placeId = #{placeId}
+    </select>
+
+    <!--  포인트 등록  -->
+    <insert id="insertPointEvent" parameterType="point">
+        INSERT INTO point(pointId,userId,reviewId,point,type,action)
+        VALUES(UUID(),#{userId},#{reviewId},#{point},#{type},#{action})
+    </insert>
+
+    <!--  리뷰 조회  -->
+    <select id="selectReview" parameterType="point" resultType="point">
+        SELECT pointId,userId,reviewId,point,type,action
+        FROM point
+        WHERE reviewId = #{reviewId} AND userId = #{userId}
+    </select>
 
 </mapper>

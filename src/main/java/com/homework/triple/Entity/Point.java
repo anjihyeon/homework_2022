@@ -1,17 +1,22 @@
 package com.homework.triple.Entity;
 
 import lombok.Data;
+import org.apache.ibatis.type.Alias;
+
+import java.util.UUID;
 
 @Data
+@Alias("point")
 public class Point {
 
-    private int pointId;
+    private String pointId;
     private String type;
     private String action;
-    private int userId;
+    private String userId;
     private int point;
-
-    private int reviewId;
+    //
+    private String reviewId;
     private String attachedPhotoIds;
-    private int placeId;
+    private String content;
+    private String placeId;
 }

@@ -2,9 +2,11 @@ package com.homework.triple.Entity;
 
 import lombok.Data;
 
+import java.util.UUID;
+
 @Data
 public class place {
 
-    private int placeId;
+    private String placeId;
 
 }
