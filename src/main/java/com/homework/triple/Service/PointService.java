@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Service
@@ -17,23 +18,32 @@ public class PointService {
     @Autowired
     private PointMapper mapper;
 
-    public ResponseEntity selectPoint(Point p){
+    public ResponseEntity selectPoint(String userId){
         Map<String, Object> map = new HashMap<>();
 
+        List<Point> list = mapper.selectPoint(userId);
+        int point = 0;
+        for(int i=0;i<list.size();i++){
+            point += list.get(i).getPoint();
+        }
 
         map.put("result",1);
+        map.put("point",point);
 
         return new ResponseEntity(map, HttpStatus.OK);
     }
 
     public ResponseEntity getPointEvent(Point p){
         Map<String, Object> map = new HashMap<>();
+        Point p2 = mapper.selectReviewPoint(p);
         int score = 0;
 
-        if(p.getAction().equals("MOD")){
-            Point p2 = mapper.selectReview(p);
+        if(p2 != null){
             score = p2.getPoint();
+        }
 
+        Review r = mapper.selectReviewPlace(p);
+        if(p.getAction().equals("MOD")){
             if(p.getContent().length() == 0){
                 score = score - 1;
             }else{
@@ -44,12 +54,6 @@ public class PointService {
             }else{
                 score = score + 1;
             }
-            p.setPoint(score);
-            if (mapper.insertPointEvent(p) == 1) {
-                map.put("result", 1);
-            } else {
-                map.put("result", 0);
-            }
         }else if(p.getAction().equals("ADD")){
             if (p.getContent().length() != 0) {
                 score = score + 1;
@@ -57,36 +61,17 @@ public class PointService {
             if (p.getAttachedPhotoIds().length() != 0) {
                 score = score + 1;
             }
-            Review r = mapper.selectReviewPlace(p);
             if (r.getCount() == 1) {
                 score = score + 1;
             }
-            p.setPoint(score);
-            if (mapper.insertPointEvent(p) == 1) {
-                map.put("result", 1);
-            } else {
-                map.put("result", 0);
-            }
         }else{
-            Point p2 = mapper.selectReview(p);
-            score = p2.getPoint();
-
-            Review r = mapper.selectReviewPlace(p);
-            if(r.getContent().length() != 0){
-                score = score - 1;
-            }
-            if(r.getAttachedPhotoIds().length() != 0){
-                score = score - 1;
-            }
-            if (r.getReviewId().equals(p.getReviewId())) {
-                score = score - 1;
-            }
-            p.setPoint(score);
-            if (mapper.insertPointEvent(p) == 1) {
-                map.put("result", 1);
-            } else {
-                map.put("result", 0);
-            }
+            score = 0;
+        }
+        p.setPoint(score);
+        if (mapper.insertPointEvent(p) == 1) {
+            map.put("result", 1);
+        } else {
+            map.put("result", 0);
         }
 
         return new ResponseEntity(map, HttpStatus.OK);

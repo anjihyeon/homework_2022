@@ -17,13 +17,27 @@
         VALUES(UUID(),#{userId},#{reviewId},#{point},#{type},#{action},now())
     </insert>
 
-    <!-- 리뷰의 최근 포인트 조회  -->
-    <select id="selectReview" parameterType="point" resultType="point">
+    <!--리뷰 포인트 최근기록 조회  -->
+    <select id="selectReviewPoint" parameterType="point" resultType="point">
         SELECT pointId,userId,reviewId,point,type,action,date
         FROM triple.point
         WHERE reviewId = #{reviewId} AND userId = #{userId}
         order by date DESC
         limit 1
+    </select>
+
+    <!--포인트 조회-->
+    <select id="selectPoint" parameterType="String" resultType="point">
+        SELECT point
+        FROM(
+            SELECT *
+            FROM triple.point
+            WHERE userId = #{userId} AND (reviewId, date) in (
+            SELECT reviewId, max(date) as date from triple.point group by reviewId
+            )
+            ORDER BY date desc
+        ) t
+        GROUP BY t.reviewId
     </select>
 
 </mapper>
