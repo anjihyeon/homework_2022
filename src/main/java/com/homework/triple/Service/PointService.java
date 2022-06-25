@@ -45,14 +45,22 @@ public class PointService {
         Review r = mapper.selectReviewPlace(p);
         if(p.getAction().equals("MOD")){
             if(p.getContent().length() == 0){
-                score = score - 1;
+                if(score != 1){
+                    score = score - 1;
+                }
             }else{
-                score = score + 1;
+                if(score != 3){
+                    score = score + 1;
+                }
             }
             if(p.getAttachedPhotoIds().length() == 0){
-                score = score - 1;
+                if(score != 1){
+                    score = score - 1;
+                }
             }else{
-                score = score + 1;
+                if(score != 3) {
+                    score = score + 1;
+                }
             }
         }else if(p.getAction().equals("ADD")){
             if (p.getContent().length() != 0) {
