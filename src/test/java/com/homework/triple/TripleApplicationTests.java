@@ -27,8 +27,8 @@ class TripleApplicationTests {
 		p.setAction("ADD");
 		p.setContent("좋아요!");
 		p.setAttachedPhotoIds("1,2,3");
-		p.setReviewId("1");
-		p.setUserId("1");
+		p.setReviewId("2");
+		p.setUserId("2");
 		p.setPlaceId("1");
 
 		System.out.println(service.getPointEvent(p));
@@ -38,10 +38,10 @@ class TripleApplicationTests {
 		Point p = new Point();
 		p.setType("REVIEW");
 		p.setAction("MOD");
-		p.setContent("1");
-		p.setAttachedPhotoIds("1,2");
-		p.setReviewId("1");
-		p.setUserId("1");
+		p.setContent("");
+		p.setAttachedPhotoIds("");
+		p.setReviewId("2");
+		p.setUserId("2");
 		p.setPlaceId("1");
 
 		System.out.println(service.getPointEvent(p));

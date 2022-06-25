@@ -4,7 +4,7 @@
 <mapper namespace="com.homework.triple.Mapper.PointMapper">
     <!-- 특정 장소 첫 리뷰 조회  -->
     <select id="selectReviewPlace" parameterType="point" resultType="review">
-        SELECT reviewId,content,attachedPhotoIds,COUNT(placeId) as count
+        SELECT reviewId,content,attachedPhotoIds,COUNT(placeId) as count,date
         FROM review
         WHERE placeId = #{placeId}
         ORDER BY date DESC
