@@ -1,7 +1,9 @@
 package com.homework.triple;
 
 import com.homework.triple.Entity.Point;
+import com.homework.triple.Entity.Review;
 import com.homework.triple.Service.PointService;
+import com.homework.triple.Service.ReviewService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -10,40 +12,68 @@ import org.springframework.boot.test.context.SpringBootTest;
 class TripleApplicationTests {
 
 	@Autowired
-	private PointService service;
+	private PointService pointService;
+	@Autowired
+	private ReviewService reviewService;
 
 	@Test
-	void test1() {
-		System.out.println(service.selectPoint("1"));
+	void PointTest() {
+		pointService.selectPoint("1");
 	}
 	@Test
-	void test2() {
-		System.out.println(service.selectPoint("3ede0ef2-92b7-4817-a5f3-0c575361f742"));
-	}
-	@Test
-	void test3() {
+	void ReviewAddTest() {
+		Review r = new Review();
+		r.setReviewId("1");
+		r.setContent("1");
+		r.setAttachedPhotoIds("1");
+		r.setPlaceId("1");
+		r.setUserId("1");
+		reviewService.insertReview(r);
+
 		Point p = new Point();
 		p.setType("REVIEW");
 		p.setAction("ADD");
-		p.setContent("좋아요!");
-		p.setAttachedPhotoIds("1,2,3");
-		p.setReviewId("2");
-		p.setUserId("2");
+		p.setContent("1");
+		p.setAttachedPhotoIds("1");
+		p.setReviewId("1");
+		p.setUserId("1");
 		p.setPlaceId("1");
 
-		System.out.println(service.getPointEvent(p));
+		pointService.getPointEvent(p);
 	}
 	@Test
-	void test4() {
+	void ReviewModTest() {
+		Review r = new Review();
+		r.setReviewId("1");
+		r.setContent("");
+		r.setAttachedPhotoIds("");
+		reviewService.modifyReview(r);
+
 		Point p = new Point();
 		p.setType("REVIEW");
 		p.setAction("MOD");
 		p.setContent("");
 		p.setAttachedPhotoIds("");
-		p.setReviewId("2");
-		p.setUserId("2");
+		p.setReviewId("1");
+		p.setUserId("1");
 		p.setPlaceId("1");
 
-		System.out.println(service.getPointEvent(p));
+		pointService.getPointEvent(p);
+	}
+
+	@Test
+	void ReviewDeleteTest() {
+		reviewService.deleteReview("1");
+
+		Point p = new Point();
+		p.setType("REVIEW");
+		p.setAction("DELETE");
+		p.setContent("");
+		p.setAttachedPhotoIds("");
+		p.setReviewId("1");
+		p.setUserId("1");
+		p.setPlaceId("1");
+
+		pointService.getPointEvent(p);
 	}
 }
