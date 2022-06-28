@@ -45,15 +45,15 @@ class TripleApplicationTests {
 	void ReviewModTest() {
 		Review r = new Review();
 		r.setReviewId("1");
-		r.setContent("");
-		r.setAttachedPhotoIds("");
+		r.setContent("1");
+		r.setAttachedPhotoIds("1");
 		reviewService.modifyReview(r);
 
 		Point p = new Point();
 		p.setType("REVIEW");
 		p.setAction("MOD");
-		p.setContent("");
-		p.setAttachedPhotoIds("");
+		p.setContent("1");
+		p.setAttachedPhotoIds("1");
 		p.setReviewId("1");
 		p.setUserId("1");
 		p.setPlaceId("1");

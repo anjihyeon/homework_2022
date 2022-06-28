@@ -45,7 +45,7 @@ public class PointService {
         Review r = mapper.selectReviewPlace(p);
 
         if(p.getAction().equals("MOD")){
-            if(r.getReviewId() == p.getReviewId()){
+            if(r.getReviewId().equals(p.getReviewId())){
                 if(p.getContent().length() == 0){
                     if(score != 1){
                         score = score - 1;
@@ -63,6 +63,9 @@ public class PointService {
                     if(score != 3) {
                         score = score + 1;
                     }
+                }
+                if(score == 0){
+                    score = score + 1;
                 }
             }else{
                 if(p.getContent().length() == 0){
